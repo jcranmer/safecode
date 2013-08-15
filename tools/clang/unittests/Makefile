@@ -14,11 +14,15 @@ ifndef CLANG_LEVEL
 
 IS_UNITTEST_LEVEL := 1
 CLANG_LEVEL := ..
-PARALLEL_DIRS = ASTMatchers Basic AST Frontend Lex Tooling
+PARALLEL_DIRS = Basic Lex
+
+#include $(CLANG_LEVEL)/../..//Makefile.config
+
+PARALLEL_DIRS += Format
+PARALLEL_DIRS += ASTMatchers AST Tooling
+PARALLEL_DIRS += Frontend
 
 endif  # CLANG_LEVEL
-
-LEVEL := $(CLANG_LEVEL)/../..
 
 include $(CLANG_LEVEL)/Makefile
 

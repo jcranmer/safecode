@@ -9,12 +9,10 @@
 
 CLANG_LEVEL := ..
 
-LEVEL := $(CLANG_LEVEL)/../..
-
-include $(CLANG_LEVEL)/../../Makefile.common
+# include $(CLANG_LEVEL)/../../Makefile.config
 
 DIRS := driver libclang c-index-test arcmt-test c-arcmt-test diagtool \
-        clang-check
+        clang-check clang-format
 
 # Recurse into the extra repository of tools if present.
 OPTIONAL_DIRS := extra

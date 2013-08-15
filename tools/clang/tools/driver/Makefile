@@ -14,7 +14,7 @@ TOOLALIAS = clang++
 # We don't currently expect production Clang builds to be interested in
 # plugins. This is important for startup performance.
 ifdef CLANG_IS_PRODUCTION
-#TOOL_NO_EXPORTS := 1
+TOOL_NO_EXPORTS := 1
 endif
 
 ifdef CLANG_ORDER_FILE
@@ -22,26 +22,26 @@ TOOL_ORDER_FILE := $(CLANG_ORDER_FILE)
 endif
 
 # Include tool version information on OS X.
-#TOOL_INFO_PLIST := Info.plist
+TOOL_INFO_PLIST := Info.plist
 
 # Include this here so we can get the configuration of the targets that have
 # been configured for construction. We have to do this early so we can set up
 # LINK_COMPONENTS before including Makefile.rules
-
-LEVEL := $(CLANG_LEVEL)/../..
-
-include $(CLANG_LEVEL)/../../Makefile.common
+#include $(CLANG_LEVEL)/../../Makefile.config
 
 LINK_COMPONENTS := $(TARGETS_TO_BUILD) asmparser bitreader bitwriter codegen \
-                   instrumentation ipo linker Core selectiondag
+                   instrumentation ipo irreader linker Core selectiondag all
 USEDLIBS = clangFrontendTool.a clangFrontend.a clangDriver.a \
-           clangSerialization.a clangCodeGen.a clangParse.a clangSema.a \
-           clangStaticAnalyzerFrontend.a clangStaticAnalyzerCheckers.a \
-           clangStaticAnalyzerCore.a \
-           clangAnalysis.a clangARCMigrate.a \
-           clangRewriteFrontend.a clangRewriteCore.a \
-           clangEdit.a clangAST.a clangLex.a clangBasic.a \
-           \
+           clangSerialization.a clangCodeGen.a clangParse.a clangSema.a
+
+USEDLIBS += clangStaticAnalyzerFrontend.a clangStaticAnalyzerCheckers.a \
+            clangStaticAnalyzerCore.a
+
+USEDLIBS += clangARCMigrate.a
+
+USEDLIBS += clangRewriteFrontend.a clangRewriteCore.a
+
+USEDLIBS += clangAnalysis.a clangEdit.a clangAST.a clangBasic.a clangLex.a \
            abc.a addchecks.a sc-support.a baggyboundscheck.a debuginstr.a \
            softbound.a formatstrings.a convert.a cstdlib.a optchecks.a oob.a \
            cmspasses.a
@@ -69,9 +69,4 @@ TOOL_INFO_BUILD_VERSION := $(LLVM_SUBMIT_VERSION).$(LLVM_SUBMIT_SUBVERSION)
 else
 TOOL_INFO_BUILD_VERSION := 
 endif
-endif
-
-# Translate make variable to define when building a "production" clang.
-ifdef CLANG_IS_PRODUCTION
-CPP.Defines += -DCLANG_IS_PRODUCTION
 endif
