@@ -108,16 +108,20 @@ CFIChecks::createTargetTable (CallInst & CI, bool & isComplete) {
           // emitted into the executable in the list of targets.
           //
           if ((Target->isIntrinsic()) ||
-              (Target->hasAvailableExternallyLinkage())) {
+              (Target->hasAvailableExternallyLinkage()))
             continue;
-          }
 
-          //
-          // Do not include functions with available externally linkage.  These
-          // functions are never emitted into the final executable.
-          //
-          Targets.push_back (ConstantExpr::getZExtOrBitCast (Target,
-                                                             VoidPtrType));
+          static const char *names[] = {
+            "__loadcheck", "__storecheck"
+          };
+          bool dontUse = Target->getName().startswith("____jf");
+          for (unsigned i = 0; i < sizeof(names) / sizeof(names[0]); ++i) {
+            if (Target->getName() == names[i])
+              dontUse = true;
+          }
+          if (!dontUse)
+            Targets.push_back (ConstantExpr::getZExtOrBitCast (Target,
+                                                               VoidPtrType));
         }
       }
     } else {

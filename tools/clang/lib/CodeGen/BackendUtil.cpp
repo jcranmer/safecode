@@ -247,7 +247,8 @@ void EmitAssemblyHelper::CreatePasses(TargetMachine *TM) {
   PMBuilder.SizeLevel = CodeGenOpts.OptimizeSize;
 
   PMBuilder.DisableSimplifyLibCalls = !CodeGenOpts.SimplifyLibCalls;
-  PMBuilder.DisableUnitAtATime = !CodeGenOpts.UnitAtATime;
+  //PMBuilder.DisableUnitAtATime = !CodeGenOpts.UnitAtATime;
+  PMBuilder.DisableUnitAtATime = true;
   PMBuilder.DisableUnrollLoops = !CodeGenOpts.UnrollLoops;
 
   // In ObjC ARC mode, add the main ARC optimization passes.

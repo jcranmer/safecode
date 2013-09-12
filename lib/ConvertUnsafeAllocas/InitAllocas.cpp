@@ -34,7 +34,6 @@
 #include "llvm/IR/Instructions.h"
 #include "llvm/IR/Module.h"
 #include "llvm/Support/Debug.h"
-
 #include <vector>
 
 using namespace llvm;
@@ -95,6 +94,7 @@ InitAllocas::doInitialization (Module & M) {
                          Int32Type,
                          Int1Type,
                          NULL);
+
 
   return true;
 }
