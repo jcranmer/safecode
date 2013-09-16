@@ -1,6 +1,6 @@
 LEVEL = ../..
 LIBRARYNAME=sc_dbg_rt
-#BYTECODE_LIBRARY=1
+BYTECODE_LIBRARY=1
 
 ifeq ($(OS),Linux)
 CXX.Flags += -march=native

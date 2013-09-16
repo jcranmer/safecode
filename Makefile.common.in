@@ -44,6 +44,11 @@ CPPFLAGS += $(SC_FLAGS)
 CXXFLAGS += $(SC_FLAGS) -Wno-deprecated
 LIBS     += @LIBS@
 
+# Default LLVMCC, since LLVM itself no longer sets this.
+LLVMCC_OPTION = "clang"
+ENABLE_BUILT_CLANG = 1
+LLVMCC_EMITIR_FLAG = "-emit-llvm"
+
 # Include LLVM's Master Makefile.
 include $(LLVM_SRC_ROOT)/Makefile.common
 
