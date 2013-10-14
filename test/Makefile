@@ -494,24 +494,27 @@ lit: lit-core lit-formatstrings lit-cstdlib lit-regression lit-bodiagsuite
 # Run the lit tests for core SAFECode
 lit-core: $(TESTSCRIPT)
 	@mkdir -p $(COREOBJ)
-	$(Verb) $(SETENV) $(MAKE) -C $(LLVM_OBJ_ROOT)/test check-local-lit TESTSUITE=$(CORESRC) LIT_ARGS=$(LIT_ARGS) ULIMIT=$(ULIMIT)
+	$(Verb) $(SETENV) $(MAKE) -C $(LLVM_OBJ_ROOT)/test check-local-lit TESTSUITE=$(CORESRC) LIT_ARGS=$(LIT_ARGS) ULIMIT=$(ULIMIT) LLVM_SRC_ROOT=$(LLVM_SRC_ROOT) LLVM_OBJ_ROOT=$(LLVM_OBJ_ROOT)
 
 # Run the lit tests for cstdlib
 lit-cstdlib: $(TESTSCRIPT)
 	@mkdir -p $(CSTDLIBOBJ)
-	$(Verb) $(SETENV) $(MAKE) -C $(LLVM_OBJ_ROOT)/test check-local-lit TESTSUITE=$(CSTDLIB) LIT_ARGS=$(LIT_ARGS) ULIMIT=$(ULIMIT)
+	$(Verb) $(SETENV) $(MAKE) -C $(LLVM_OBJ_ROOT)/test check-local-lit TESTSUITE=$(CSTDLIB) LIT_ARGS=$(LIT_ARGS) ULIMIT=$(ULIMIT) LLVM_SRC_ROOT=$(LLVM_SRC_ROOT) LLVM_OBJ_ROOT=$(LLVM_OBJ_ROOT)
+
 
 # Run the lit tests for format string functions
 lit-formatstrings: $(TESTSCRIPT)
 	@mkdir -p $(FMTSTROBJ)
-	$(Verb) $(SETENV) $(MAKE) -C $(LLVM_OBJ_ROOT)/test check-local-lit TESTSUITE=$(FMTSTR) LIT_ARGS=$(LIT_ARGS) ULIMIT=$(ULIMIT)
+	$(Verb) $(SETENV) $(MAKE) -C $(LLVM_OBJ_ROOT)/test check-local-lit TESTSUITE=$(FMTSTR) LIT_ARGS=$(LIT_ARGS) ULIMIT=$(ULIMIT) LLVM_SRC_ROOT=$(LLVM_SRC_ROOT) LLVM_OBJ_ROOT=$(LLVM_OBJ_ROOT)
+
 
 # Run regression tests
 lit-regression: $(TESTSCRIPT)
 	@mkdir -p $(REGRSNOBJ)
 	$(Verb) $(SETENV) \
 		PATH=$(PROJ_OBJ_ROOT)/$(BuildMode)/bin:$(LLVMToolDir):$(PATH) \
-		$(MAKE) -C $(LLVM_OBJ_ROOT)/test check-local-lit TESTSUITE=$(REGRSN) ULIMIT=$(ULIMIT)
+		$(MAKE) -C $(LLVM_OBJ_ROOT)/test check-local-lit TESTSUITE=$(REGRSN) LIT_ARGS=$(LIT_ARGS) ULIMIT=$(ULIMIT) LLVM_SRC_ROOT=$(LLVM_SRC_ROOT) LLVM_OBJ_ROOT=$(LLVM_OBJ_ROOT)
+
 
 # All names of the files in the BOdiagsuite
 BODIAG_FILE_NAMES := $(notdir $(wildcard $(BODIAGSRC)/*.c))
@@ -563,7 +566,9 @@ $(TESTSCRIPT): $(PROJ_SRC_ROOT)/test/tools/test.sh.in .FORCE
 lit-bodiagsuite: $(TESTSCRIPT) $(BODIAG_ANNOTATED)
 	@cp $(BODIAGSRC)/TestInputFile1 $(BODIAGOBJ)
 	$(Verb) $(SETENV) $(MAKE) -C $(LLVM_OBJ_ROOT)/test check-local-lit \
-		TESTSUITE=$(BODIAGSRC)/.. LIT_ARGS=$(LIT_ARGS) ULIMIT=$(ULIMIT)
+		TESTSUITE=$(BODIAGSRC)/.. LIT_ARGS=$(LIT_ARGS) ULIMIT=$(ULIMIT) \
+		LLVM_SRC_ROOT=$(LLVM_SRC_ROOT) LLVM_OBJ_ROOT=$(LLVM_OBJ_ROOT)
+
 
 clean:: litclean
 
