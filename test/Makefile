@@ -544,8 +544,12 @@ $(BODIAG_BAD_NAMES:%=$(BODIAGOBJ)/%): $(BODIAGOBJ)/%: $(BODIAGSRC)/%
 	@printf '/*\n * RUN: test.sh -e -t %%t %%s\n */\n' > $@
 	@cat $< >> $@
 
+
+.PHONY: .FORCE
+.FORCE:
+
 # Build the script to run the lit tests
-$(TESTSCRIPT): $(PROJ_SRC_ROOT)/test/tools/test.sh.in
+$(TESTSCRIPT): $(PROJ_SRC_ROOT)/test/tools/test.sh.in .FORCE
 	@echo Creating test script...
 	@mkdir -p `dirname $@`
 	@sed -e 's#@SC@#$(SC_BIN)#g' \
