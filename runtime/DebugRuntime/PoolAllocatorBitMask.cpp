@@ -165,12 +165,11 @@ pool_init_runtime (unsigned Dangling, unsigned RewriteOOB, unsigned Terminate) {
   //
   // Allocate a range of memory for rewrite pointers.
   //
-  const unsigned invalidsize = 1 * 1024 * 1024 * 1024;
 #if defined(__linux__) && defined(__i386__)
-  /* Use the address of the kernel's text segment for rewrite pointers */
-  InvalidLower = (uintptr_t) 0xc0000000;
-  InvalidUpper = (uintptr_t) InvalidLower + invalidsize;
+  const unsigned invalidsize = 200 * 1024 * 1024;      // 200 MB
 #else
+  const unsigned invalidsize = 1 * 1024 * 1024 * 1024; // 1GB
+#endif
   void * Addr = mmap (0, invalidsize, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANON, -1, 0);
   if (Addr == MAP_FAILED) {
      perror ("mmap:");
@@ -186,7 +185,6 @@ pool_init_runtime (unsigned Dangling, unsigned RewriteOOB, unsigned Terminate) {
 #endif
   InvalidLower = (uintptr_t) Addr;
   InvalidUpper = (uintptr_t) Addr + invalidsize;
-#endif
 
   if (logregs) {
     fprintf (stderr, "OOB Area: %p - %p\n", (void *) InvalidLower,
