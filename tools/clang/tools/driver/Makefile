@@ -27,34 +27,24 @@ TOOL_INFO_PLIST := Info.plist
 # Include this here so we can get the configuration of the targets that have
 # been configured for construction. We have to do this early so we can set up
 # LINK_COMPONENTS before including Makefile.rules
-include $(CLANG_LEVEL)/../../../../Makefile.config
+#include $(CLANG_LEVEL)/../../Makefile.config
 
 LINK_COMPONENTS := $(TARGETS_TO_BUILD) asmparser bitreader bitwriter codegen \
-                   instrumentation ipo irreader linker selectiondag
+                   instrumentation ipo irreader linker Core selectiondag all
 USEDLIBS = clangFrontendTool.a clangFrontend.a clangDriver.a \
            clangSerialization.a clangCodeGen.a clangParse.a clangSema.a
 
-ifeq ($(ENABLE_CLANG_STATIC_ANALYZER),1)
 USEDLIBS += clangStaticAnalyzerFrontend.a clangStaticAnalyzerCheckers.a \
             clangStaticAnalyzerCore.a
-endif
 
-ifeq ($(ENABLE_CLANG_ARCMT),1)
 USEDLIBS += clangARCMigrate.a
-endif
 
-ifeq ($(ENABLE_CLANG_REWRITER),1)
 USEDLIBS += clangRewriteFrontend.a clangRewriteCore.a
-endif
 
-USEDLIBS += clangAnalysis.a clangEdit.a clangAST.a clangBasic.a clangLex.a
-
-#
-# Link in the SAFECode passes
-#
-USEDLIBS += abc.a addchecks.a sc-support.a baggyboundscheck.a debuginstr.a \
-            softbound.a formatstrings.a convert.a cstdlib.a optchecks.a oob.a \
-            cmspasses.a
+USEDLIBS += clangAnalysis.a clangEdit.a clangAST.a clangBasic.a clangLex.a \
+           abc.a addchecks.a sc-support.a baggyboundscheck.a debuginstr.a \
+           softbound.a formatstrings.a convert.a cstdlib.a optchecks.a oob.a \
+           cmspasses.a
 
 include $(CLANG_LEVEL)/Makefile
 

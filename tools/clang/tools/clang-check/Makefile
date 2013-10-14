@@ -12,10 +12,10 @@ CLANG_LEVEL := ../..
 TOOLNAME = clang-check
 
 # No plugins, optimize startup time.
-TOOL_NO_EXPORTS = 1
+# TOOL_NO_EXPORTS = 1
 
-include $(CLANG_LEVEL)/../../../../Makefile.config
-LINK_COMPONENTS := $(TARGETS_TO_BUILD) asmparser bitreader support mc
+#include $(CLANG_LEVEL)/../../Makefile.config
+LINK_COMPONENTS := $(TARGETS_TO_BUILD) asmparser bitreader support mc all
 USEDLIBS = clangFrontend.a clangSerialization.a clangDriver.a \
            clangTooling.a clangParse.a clangSema.a clangAnalysis.a \
            clangRewriteFrontend.a clangRewriteCore.a clangEdit.a clangAST.a \

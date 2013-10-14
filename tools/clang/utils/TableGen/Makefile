@@ -7,11 +7,12 @@
 #
 ##===----------------------------------------------------------------------===##
 
-LEVEL = ../../../..
+CLANG_LEVEL = ../..
+
 TOOLNAME = clang-tblgen
-LLVMLIBS = LLVMTableGen.a LLVMSupport.a
+LINK_COMPONENTS = TableGen Support
 
 # This tool has no plugins, optimize startup time.
 TOOL_NO_EXPORTS = 1
 
-include $(LEVEL)/Makefile.common
+include $(CLANG_LEVEL)/Makefile
