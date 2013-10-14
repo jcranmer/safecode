@@ -485,23 +485,26 @@ TESTSCRIPT=$(PROJ_OBJ_ROOT)/test/tools/test.sh
 # ulimit settings
 ULIMIT="ulimit -t 30 ; ulimit -d 512000 ; ulimit -m 512000 ;"
 
+# Lit configuration options
+LIT_ARGS= #"--use-processes"
+
 # Run all lit tests
 lit: lit-core lit-formatstrings lit-cstdlib lit-regression lit-bodiagsuite
 
 # Run the lit tests for core SAFECode
 lit-core: $(TESTSCRIPT)
 	@mkdir -p $(COREOBJ)
-	$(Verb) $(SETENV) $(MAKE) -C $(LLVM_OBJ_ROOT)/test check-local-lit TESTSUITE=$(CORESRC) LIT_ARGS=-j1 ULIMIT=$(ULIMIT)
+	$(Verb) $(SETENV) $(MAKE) -C $(LLVM_OBJ_ROOT)/test check-local-lit TESTSUITE=$(CORESRC) LIT_ARGS=$(LIT_ARGS) ULIMIT=$(ULIMIT)
 
 # Run the lit tests for cstdlib
 lit-cstdlib: $(TESTSCRIPT)
 	@mkdir -p $(CSTDLIBOBJ)
-	$(Verb) $(SETENV) $(MAKE) -C $(LLVM_OBJ_ROOT)/test check-local-lit TESTSUITE=$(CSTDLIB) LIT_ARGS=-j1 ULIMIT=$(ULIMIT)
+	$(Verb) $(SETENV) $(MAKE) -C $(LLVM_OBJ_ROOT)/test check-local-lit TESTSUITE=$(CSTDLIB) LIT_ARGS=$(LIT_ARGS) ULIMIT=$(ULIMIT)
 
 # Run the lit tests for format string functions
 lit-formatstrings: $(TESTSCRIPT)
 	@mkdir -p $(FMTSTROBJ)
-	$(Verb) $(SETENV) $(MAKE) -C $(LLVM_OBJ_ROOT)/test check-local-lit TESTSUITE=$(FMTSTR) LIT_ARGS=-j1 ULIMIT=$(ULIMIT)
+	$(Verb) $(SETENV) $(MAKE) -C $(LLVM_OBJ_ROOT)/test check-local-lit TESTSUITE=$(FMTSTR) LIT_ARGS=$(LIT_ARGS) ULIMIT=$(ULIMIT)
 
 # Run regression tests
 lit-regression: $(TESTSCRIPT)
@@ -560,7 +563,7 @@ $(TESTSCRIPT): $(PROJ_SRC_ROOT)/test/tools/test.sh.in .FORCE
 lit-bodiagsuite: $(TESTSCRIPT) $(BODIAG_ANNOTATED)
 	@cp $(BODIAGSRC)/TestInputFile1 $(BODIAGOBJ)
 	$(Verb) $(SETENV) $(MAKE) -C $(LLVM_OBJ_ROOT)/test check-local-lit \
-		TESTSUITE=$(BODIAGSRC)/.. LIT_ARGS=-j2 ULIMIT=$(ULIMIT)
+		TESTSUITE=$(BODIAGSRC)/.. LIT_ARGS=$(LIT_ARGS) ULIMIT=$(ULIMIT)
 
 clean:: litclean
 
