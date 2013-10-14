@@ -83,9 +83,11 @@ setupdir()
 compile()
 {
   # Create bitcode file with SAFECode passes.
-  $sc -g -S -emit-llvm -fmemsafety -fmemsafety-terminate -o $llfile $filename 2>&1 | tee $sclog
-  # Compile and link bitcode.
-  $sc -o $scfile $llfile $link_files $sc_lib/libsc_dbg_rt.a $sc_lib/libpoolalloc_bitmap.a $sc_lib/libgdtoa.a -lstdc++
+  # XXX: Kludge to get the string-checking SAFECode testing feature working.
+  $sc -g -S -emit-llvm -fmemsafety -fmemsafety-terminate -fsubflow -o $llfile $filename 2>&1 | tee $sclog
+  # Compile and link bitcode
+  #$sc -g -fmemsafety -fmemsafety-terminate -fsubflow -o $scfile $llfile $link_files $sc_lib/libsc_dbg_rt.a $sc_lib/libpoolalloc_bitmap.a $sc_lib/libgdtoa.a -lstdc++ |& tee $sclog
+  $sc -g -fmemsafety -fmemsafety-terminate -fsubflow -o $scfile $filename $link_files $sc_lib/libsc_dbg_rt.a $sc_lib/libpoolalloc_bitmap.a $sc_lib/libgdtoa.a -lstdc++ |& tee $sclog
 }
 
 # If requested, verify that the llvm code contains the 
