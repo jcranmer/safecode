@@ -24,10 +24,10 @@ basic-00032-min.c *
 basic-00033-min.c *
 
 # Requires extra libraries on linux
-basic-00177-large.c linux
-basic-00177-med.c linux
-basic-00177-min.c linux
-basic-00177-ok.c linux
+# basic-00177-large.c linux
+# basic-00177-med.c linux
+# basic-00177-min.c linux
+# basic-00177-ok.c linux
 
 # Requires extra command line arguments
 basic-00180-large.c *
